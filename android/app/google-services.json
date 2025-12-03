@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "152922673520",
+    "project_id": "socialconnect-29ea0",
+    "storage_bucket": "socialconnect-29ea0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152922673520:android:e989793a923b5b2b5b7fb5",
+        "android_client_info": {
+          "package_name": "social.dineshkokare.connect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-7jVsNb_qXgoNyrRnjDKZRpPA6W_n4GU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../services/auth_service.dart';
 import '../../../core/widgets/glass_container.dart';
-import '../../../core/services/auth_repository.dart';
 import '../../home/screens/home_screen.dart';
 import 'signup_screen.dart';
 
@@ -21,7 +20,6 @@ class _LoginScreenState extends State<LoginScreen>
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _authRepository = AuthRepository();
   bool _isLoading = false;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -67,32 +65,20 @@ class _LoginScreenState extends State<LoginScreen>
     setState(() => _isLoading = true);
 
     try {
-      // Call API login
-      final result = await _authRepository.login(
+      final authService = context.read<AuthService>();
+      final navigator = Navigator.of(context);
+
+      await authService.signIn(
         _emailController.text.trim(),
         _passwordController.text,
       );
 
       if (!mounted) return;
 
-      if (result != null) {
-        // Login successful - token is automatically saved in AuthRepository
-        // Also sign in with Firebase for backward compatibility
-        await context.read<AuthService>().signIn(
-          _emailController.text.trim(),
-          _passwordController.text,
-        );
-
-        if (!mounted) return;
-
-        // Navigate to home
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
-      } else {
-        // Login failed
-        _showErrorSnackBar('Invalid email or password');
-      }
+      // Navigate to home
+      navigator.pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
     } catch (e) {
       if (mounted) {
         _showErrorSnackBar('Login failed: ${e.toString()}');

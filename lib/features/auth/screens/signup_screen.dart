@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../services/auth_service.dart';
+import '../../profile/services/profile_service.dart';
 import '../../../core/widgets/glass_container.dart';
-import '../../../core/services/auth_repository.dart';
 import '../../home/screens/home_screen.dart';
 
 import '../../../core/utils/validators.dart';
@@ -21,7 +21,6 @@ class _SignUpScreenState extends State<SignUpScreen>
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _authRepository = AuthRepository();
   bool _isLoading = false;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -68,33 +67,36 @@ class _SignUpScreenState extends State<SignUpScreen>
     setState(() => _isLoading = true);
 
     try {
-      // Call API register
-      final result = await _authRepository.register(
-        _nameController.text.trim(),
+      final authService = context.read<AuthService>();
+      final profileService = ProfileService();
+      final navigator = Navigator.of(context);
+
+      // Create Auth User
+      final userCredential = await authService.signUp(
         _emailController.text.trim(),
         _passwordController.text,
       );
 
-      if (!mounted) return;
+      if (userCredential?.user != null) {
+        // Create Firestore Profile
+        await profileService.createProfile(
+          uid: userCredential!.user!.uid,
+          name: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+        );
 
-      if (result != null) {
-        // Registration successful - token is automatically saved
-        // Also sign in with Firebase for backward compatibility
-        await context.read<AuthService>().signIn(
-          _emailController.text.trim(),
-          _passwordController.text,
+        // Update Display Name in Auth
+        await userCredential.user!.updateDisplayName(
+          _nameController.text.trim(),
         );
 
         if (!mounted) return;
 
         // Navigate to home
-        Navigator.of(context).pushAndRemoveUntil(
+        navigator.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const HomeScreen()),
           (route) => false,
         );
-      } else {
-        // Registration failed
-        _showErrorSnackBar('Registration failed. Email may already exist.');
       }
     } catch (e) {
       if (mounted) {

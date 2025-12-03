@@ -11,11 +11,40 @@ class AuthService extends ChangeNotifier {
   bool get isAuthenticated => _isAuthenticated;
   User? get currentUser => _firebaseAuth.currentUser;
 
-  Future<void> signIn(String email, String password) async {
-    // Mock sign in delay
-    await Future.delayed(const Duration(seconds: 2));
-    _isAuthenticated = true;
-    notifyListeners();
+  Future<UserCredential?> signIn(String email, String password) async {
+    try {
+      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      _isAuthenticated = true;
+      notifyListeners();
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      debugPrint('Firebase Sign In Error: ${e.code} - ${e.message}');
+      rethrow;
+    } catch (e) {
+      debugPrint('Sign In Error: $e');
+      rethrow;
+    }
+  }
+
+  Future<UserCredential?> signUp(String email, String password) async {
+    try {
+      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      _isAuthenticated = true;
+      notifyListeners();
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      debugPrint('Firebase Sign Up Error: ${e.code} - ${e.message}');
+      rethrow;
+    } catch (e) {
+      debugPrint('Sign Up Error: $e');
+      rethrow;
+    }
   }
 
   // Google Sign-In
@@ -49,18 +78,27 @@ class AuthService extends ChangeNotifier {
       appleProvider.addScope('email');
       appleProvider.addScope('name');
 
+      debugPrint('Starting Apple Sign-In...');
+
       // Sign in with Apple
       final userCredential = await _firebaseAuth.signInWithProvider(
         appleProvider,
       );
 
+      debugPrint('Apple Sign-In successful: ${userCredential.user?.uid}');
       _isAuthenticated = true;
       notifyListeners();
 
       return userCredential;
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      debugPrint('FirebaseAuthException - Code: ${e.code}');
+      debugPrint('FirebaseAuthException - Message: ${e.message}');
+      debugPrint('FirebaseAuthException - Details: ${e.toString()}');
+      rethrow;
+    } catch (e, stackTrace) {
       debugPrint('Apple Sign-In error: $e');
-      return null;
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
     }
   }
 

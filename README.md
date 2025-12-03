@@ -4,6 +4,7 @@ A feature-rich social messaging app built with Flutter that includes:
 
 ## Features
 
+
 ✅ **Authentication** - User login/signup
 ✅ **Real-time Messaging** - Send text messages
 ✅ **Image Sharing** - Share photos from gallery

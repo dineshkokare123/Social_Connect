@@ -30,7 +30,7 @@ All API keys are stored in the `.env` file which is:
 
 **Before (Insecure):**
 ```dart
-static const String apiKey = 'AIzaSyCeez8gbSSzkniBa94hZpQUaSdnExB0s_8'; // Exposed!
+static const String apiKey = 'your_api_key_here'; // Exposed!
 ```
 
 **After (Secure):**

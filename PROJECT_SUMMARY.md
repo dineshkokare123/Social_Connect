@@ -152,20 +152,20 @@ API_BASE_URL=https://api.socialconnect.com/v1
 API_KEY=your_api_key_here
 
 # Google Services
-GOOGLE_MAPS_API_KEY=AIzaSyDqBWwvLOWGfMXKlDxQxLvGCMPjNSPLRqY
-GEMINI_API_KEY=AIzaSyCeez8gbSSzkniBa94hZpQUaSdnExB0s_8
+GOOGLE_MAPS_API_KEY=your_google_maps_key
+GEMINI_API_KEY=your_gemini_key
 
 # Zego Cloud (Live Streaming)
-ZEGO_LIVE_APP_ID=1186646848
-ZEGO_LIVE_APP_SIGN=ac8fe100e0e3f63552066e0ec4298ef787a552edf1467d53ea88101562336975
+ZEGO_LIVE_APP_ID=your_live_app_id
+ZEGO_LIVE_APP_SIGN=your_live_app_sign
 
 # Zego Cloud (Tutoring)
-ZEGO_TUTORING_APP_ID=1420846028
-ZEGO_TUTORING_APP_SIGN=46605c6c0742cecbbe2f6296e875928e4ce54aab6d0aa3b3027e1322d9ca2eea
+ZEGO_TUTORING_APP_ID=your_tutoring_app_id
+ZEGO_TUTORING_APP_SIGN=your_tutoring_app_sign
 
 # Zego Cloud (Watch Together)
-ZEGO_WATCH_APP_ID=1759576493
-ZEGO_WATCH_APP_SIGN=0fb4785cc9c105e79f1e71c3839f3bf8135fc8414b136c3412f484dd87f07406
+ZEGO_WATCH_APP_ID=your_watch_app_id
+ZEGO_WATCH_APP_SIGN=your_watch_app_sign
 ```
 
 ### Security Features

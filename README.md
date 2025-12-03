@@ -27,6 +27,7 @@ A feature-rich social messaging app built with Flutter that includes:
 ### 1. Install Dependencies
 
 ```bash
+git clone https://github.com/dineshkokare123/Social_Connect
 cd social_connect
 flutter pub get
 ```
